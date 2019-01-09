@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Info Site</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="mycss.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <header>
+      <div class="navbar navbar-dark bg-dark box-shadow">
+        <div class="container d-flex justify-content-between">
+          <a href="index.html" class="navbar-brand d-flex align-items-center">
+            <strong>Info Site</strong>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main role="main">
+
+        <section class="container info-div">
+
+	       <div class="row">
+                
+                <div class="col-md-12 info-display">
+                  <h3>Info </h3>
+                  <table class="table table-bordered">
+                    
+                  </table>
+                </div> 
+
+        	</div>
+			
+			<hr>
+
+			<div class="row">
+				
+              	<div class="col-md-6">
+                	<h3>Info Form</h3>
+                
+					<form id="inputForm">
+			                  
+	                    <div class="form-group">
+	                    	<input type="text" class="form-control" placeholder="Enter Name" id="name">
+	                  	</div>
+
+	                    <div class="form-group">
+	                    	<input type="email" class="form-control" placeholder="Enter Email" id="email">
+	                  	</div>
+
+	                  	<div class="form-group">
+	                    	<input type="number" class="form-control" placeholder="Enter Salary" id="salary">
+	                  	</div>
+
+						<div class="form-group">
+							<input type="submit" class="btn btn-default" value="Submit" />
+
+						</div>
+
+			        </form> 
+
+              	</div>
+
+				<div class="info-form col-md-6">
+				        <h3>Update Form</h3>
+
+					<form id="editForm">
+				          
+				        <div class="form-group">
+				        	<input type="text" class="form-control" placeholder="Enter Name" name="name">
+				        </div>
+				        <div class="form-group">
+				        	<input type="email" class="form-control" placeholder="Enter Email" name="email">
+				        </div>
+				        <div class="form-group">
+				        	<input type="number" class="form-control" placeholder="Enter Salary" name="salary">
+				        </div>
+				        <input name="id" hidden>
+
+						<div class="form-group">
+					        <button type="submit" class="btn btn-default">Update</button>
+						</div>	
+			
+					</form>
+
+				</div>
+			
+			</div>
+
+        </section>
+
+
+    </main>
+
+    <footer class="text-muted">
+      <div class="container">
+        <p class="float-right">
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+    <script type="text/javascript">
+          
+      var storedUsers = [];	
+      var user_id = 0; 
+      var i = 0;
+	
+      function editUsers(i) {
+	var storedUsers = JSON.parse(localStorage.getItem('userData'));
+	$("#editForm").find('input[name="name"]').val(storedUsers[i]["name"]);
+	$("#editForm").find('input[name="email"]').val(storedUsers[i]["email"]);
+	$("#editForm").find('input[name="salary"]').val(storedUsers[i]["salary"]);
+	$("#editForm").find('input[name="id"]').val(i);
+      }	
+
+	
+    function deleteUsers(i) {
+		var storedUsers = JSON.parse(localStorage.getItem('userData'));
+		storedUsers.splice(i,1);
+		if(storedUsers.length==0) 
+			$('table').remove();
+		window.localStorage.setItem('userData',JSON.stringify(storedUsers));
+		window.location.reload();
+    }
+
+
+    $(document).ready(function() {
+		if (localStorage.getItem("userData") !== null) {
+			storedUsers = JSON.parse(localStorage.getItem("userData"));
+		
+			if (localStorage.getItem("userData").length !== 2) {
+				$('table').append('<tr><th>ID</th><th> Name </th><th> Email </th><th> Salary </th><th> Edit </th><th> Delete </th></tr>');
+			}
+
+			for(i=0; i<storedUsers.length; i++){
+				var id = i+1;
+				$('table').append('<tr><td>' + id + '</td><td>' + storedUsers[i]['name'] + '</td><td>' + storedUsers[i]['email'] + '</td><td>' + storedUsers[i]['salary'] + '</td> <td> <button type=\"submit\" class=\"btn btn-default\" onclick=\"editUsers(' + i + ')\">Edit</button></td>' + '</td> <td> <button type=\"submit\" class=\"btn btn-default\" onclick=\"deleteUsers(' + i + ')\">Delete</button></td> </tr>');		
+			}
+		}
+    });
+
+
+	$('#inputForm').on('submit', function (e) {
+		e.preventDefault();
+		
+		if (localStorage.getItem("userData") !== null) {
+			storedUsers = JSON.parse(localStorage.getItem("userData"));
+		}
+
+		if (localStorage.getItem("userData") === null){
+			$('table').append('<tr><th> Name </th><th> Email </th><th> Salary </th></tr>');
+		}
+	        
+		var n = $('#inputForm').find('input[type="text"]').val();
+
+        var e = $('#inputForm').find('input[type="email"]').val();
+
+        var s = $('#inputForm').find('input[type="number"]').val();
+
+		const user = {
+		    name: n,
+		    email: e,
+		    salary: s
+		}
+			
+		storedUsers.push(user);
+
+		window.localStorage.setItem('userData',JSON.stringify(storedUsers));
+
+		$(this).closest('form').find("input[type=text]").val("");
+		$(this).closest('form').find("input[type=email]").val("");
+		$(this).closest('form').find("input[type=number]").val("");
+		window.location.reload();
+
+    });
+
+    $('#editForm').on('submit', function (e) {
+    	e.preventDefault();
+        
+		storedUsers = JSON.parse(localStorage.getItem("userData"));
+		
+		var i = $('#editForm').find('input[name="id"]').val();
+
+		var n = $('#editForm').find('input[type="text"]').val();
+
+	    var e = $('#editForm').find('input[type="email"]').val();
+
+	    var s = $('#editForm').find('input[type="number"]').val();
+
+		storedUsers[i]["name"] = n;	
+		storedUsers[i]["email"] = e;
+		storedUsers[i]["salary"] = s;
+		
+		window.localStorage.setItem('userData',JSON.stringify(storedUsers));
+
+		window.location.reload();
+
+    });
+
+    </script>
+
+
+  </body>
+</html>
